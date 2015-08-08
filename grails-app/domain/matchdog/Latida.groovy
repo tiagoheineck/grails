@@ -11,4 +11,8 @@ class Latida {
     	mensagem blank: false, maxSize: 1000
     	enviadaEm blank: false
     }
+
+    static mapping = {
+        sort enviadaEm: "asc"
+    }
 }

@@ -46,8 +46,10 @@ class CadastroController {
 
     def update() {
     	def dono = Dono.get(session['dono_id'])
-    	//parei aqui
-    	//falta pegar os parametros e fazer setters com as novas informações
+    	dono.nome = params.nome
+    	dono.sexo = params.sexo
+    	dono.email = params.email
+    	dono.password = params.password
     	if(params.foto) {
     		def file = request.getFile("foto")
     		String fileUpload = fileUploadService.upload(file)
