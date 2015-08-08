@@ -14,7 +14,7 @@ class UrlMappings {
         "/dono/create"(controller:'dono', action:'create')
         "/farejar"(controller:'home',action: 'farejar')                
         "/curtir"(controller:'home',action: 'curtir') 
-        "/cadastro/new"(controller:'cadastro',action: 'add')        
+        "/cadastro"(controller:'cadastro',action: 'add')        
         "/dogs/new"(controller:'dogs',action: 'add')        
         "500"(view:'/error')
         "404"(view:'/notFound')
