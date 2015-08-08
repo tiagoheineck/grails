@@ -7,7 +7,11 @@ class UrlMappings {
             }
         }
 
-        "/"(view:"/index")
+        "/"{
+            controller = "Login"
+            action = "index"
+        }
+        "/dono/create"(controller:'dono', action:'create')
         "/farejar"(controller:'home',action: 'farejar')                
         "/curtir"(controller:'home',action: 'curtir') 
         "/cadastro/new"(controller:'cadastro',action: 'add')        

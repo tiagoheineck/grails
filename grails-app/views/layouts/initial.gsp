@@ -6,9 +6,17 @@
     <title><g:layoutTitle default="MatchDog - Grails"/></title>
     <meta name="description" content="">
     <meta name="author" content="">
+        <asset:javascript src="application.js"/>
+        
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
         <asset:stylesheet src="application.css"/>
-        <asset:javascript src="application.js"/>
+        
+
     <g:layoutHead/>
   </head>
   <body>
