@@ -3,6 +3,7 @@
 
 # default HSQL database files for production mode
 /prodDb.*
+/devDb.*
 
 # general HSQL database files
 *Db.properties
@@ -26,3 +27,6 @@
 
 # "temporary" build files
 /target
+
+# bosta dos .gradle
+/.gradle/*
