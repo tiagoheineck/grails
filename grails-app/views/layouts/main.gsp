@@ -28,21 +28,21 @@
               <div class="contadores">
                 <div id="conta_match">
                   &nbsp;
-                  <g:if test="${current_dog != null && !current_dog.isEmpty()}">
+                  <g:ifCurrentDog>
                     <a href="/matches/" title="Matches"> 
                         <span class="glyphicon glyphicon-fire"></span> 
-                        ${contador_matches} Matches
+                        <g:getCurrentDogCountMatches /> Matches
                     </a>
-                  </g:if>
+                  </g:ifCurrentDog>
                 </div>
                 <div id="conta_chat">
                   &nbsp;
-                <g:if test="${current_dog != null && !current_dog.isEmpty()}">
-                    <a href="/matches/" title="Bate-papo"> 
-                        <span class="glyphicon glyphicon-comment"></span>
-                        ${contador_latidas} Latidas
+                  <g:ifCurrentDog>
+                    <a href="/matches/" title="Matches"> 
+                        <span class="glyphicon glyphicon-fire"></span> 
+                        <g:getCurrentDogCountLatidas /> Latidas
                     </a>
-                </g:if>
+                  </g:ifCurrentDog>
                 </div>
                 <div class="profile logout">
                   <a href="/logout">
@@ -57,8 +57,9 @@
               <span> <asset:image src="icon_matchDog100.png"/> </span>
             </div>
             <div class="col-sm-8 busca">
+%{--
             <!-- aqui era variável de instância  @current_dog -->
-              <g:if test="${current_dog != null && !current_dog.isEmpty()}">
+              <g:ifCurrentDog>
                 <g:form name="" class="form-horizontal" action="farejar">
                   <div class="form-group">
                     <div class="col-sm-1 col-padding-reduce">
@@ -123,44 +124,49 @@
                     </div>
                   </div>
                   </g:form>
-              </g:if>
+              </g:ifCurrentDog>
+--}%
             </div>
             <div class="col-md-2 nav profile-avatares">
-              <g:if test="${current_user != null && !current_user.isEmpty()}">
+              <g:ifCurrentDono>
+
               <div id="profile-dono" class="profile">
-                <a href="/cadastro/edit" title="<%= current_user.nome %>">
-                  <g:if test="${current_user.foto != null}">
-                    <img src="/images/${current_user.foto.url}"> 
-                  </g:if>
-                  <g:else>  
+                <a href="/cadastro/edit" title="<g:getCurrentDonoNome/>">
+                  <g:ifCurrentDonoHasFoto>
+                    <img src="/<g:getCurrentDonoFotoUrl/>"> 
+                  </g:ifCurrentDonoHasFoto>
+                  <g:ifCurrentDonoHasNotFoto>  
                     <asset:image src="dono_default_image.png"/>
-                  </g:else>    
+                  </g:ifCurrentDonoHasNotFoto>
                   <span class="glyphicon glyphicon-user"></span>Perfil
                 </a>
               </div>
-              </g:if>
+
+              </g:ifCurrentDono>
               
-              <g:if test="${current_dog != null && !current_dog.isEmpty()}">
+              <g:ifCurrentDog>
+
               <div id="profile-dog"  class="profile">
-                
-                <a href="/dogs" title="<%= current_dog.nome %>">
-                  <g:if test="${current_dog.foto != null}">
-                    <img src="/images/${current_dog.foto.url}"> 
-                  </g:if>
-                  <g:else>  
+                <a href="/dogs" title="<g:getCurrentDogNome/>">
+                  <g:ifCurrentDogHasFoto>
+                    <img src="/<g:getCurrentDogFotoUrl/>"> 
+                  </g:ifCurrentDogHasFoto>
+                  <g:ifCurrentDogHasNotFoto>
                     <asset:image src="dog_default_image.png"/>
-                  </g:else>    
+                  </g:ifCurrentDogHasNotFoto>
                   <span class="dog-icon-p"><asset:image src="dog-icon.png"/></span>Dogs
                 </a>
               </div>
-              </g:if>
-              <g:else>  
+
+              </g:ifCurrentDog>
+
+              <g:ifNotCurrentDog>
               <div id="profile-dog"  class="profile">
                 <a href="/dogs" title="Escolha um Dog!">
                 <span class="dog-icon-p"><asset:image src="dog-icon.png"/></span>Escolha um Dog!
                 </a>
               </div>
-              </g:else> 
+              </g:ifNotCurrentDog>
             </div>
 
         </div>

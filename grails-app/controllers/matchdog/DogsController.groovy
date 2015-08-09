@@ -25,16 +25,6 @@ class DogsController {
             }
     	}
 
-    	//importar demais fotos
-    	if(params.files) {
-    		params.files.each {
-    			file = request.getFile("foto")
-    			String fileUpload = fileUploadService.upload(file)
-    			foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
-    			foto.save(flush: true)
-    			dog.addToFoto(foto)
-    		}
-    	}
     	if(dog.save(flush: true)){
             flash.message = "O Dog ${dog.nome} foi Editado com sucesso."
             flash.args = ["notice"]
@@ -52,11 +42,9 @@ class DogsController {
         dog.raca = Raca.get(params.raca)
         dog.cidade = Cidade.get(params.cidade)
 
-        println 'FOTO:' + params.foto
     	if(params.foto) {
     		def file = request.getFile("foto")
     		String fileUpload = fileUploadService.upload(file)
-            print 'file:' +fileUpload
             if (fileUpload) {
                 def foto
                 if(!dog.foto) {
