@@ -11,7 +11,7 @@ class UrlMappings {
             controller = "Login"
             action = "index"
         }
-        "/dono/create"(controller:'dono', action:'create')
+        "/logout"(controller:'login', action:'destroy')
         "/farejar"(controller:'home',action: 'farejar')                
         "/curtir"(controller:'home',action: 'curtir') 
         "/cadastro"(controller:'cadastro',action: 'add')        

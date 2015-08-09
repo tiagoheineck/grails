@@ -32,7 +32,7 @@ Equipe:
 </div>
           <div class="col-md-2"></div>
           <div class="col-md-5">
-<g:form name="login" class="form-horizontal" action="create">
+<form name="login" class="form-horizontal" action="/login/create">
 
 <fieldset>
 <legend>Entrar</legend>
@@ -73,7 +73,7 @@ Equipe:
 </div>
 
 </fieldset>
-</g:form>
+</form>
           </div>
 
    </body>

@@ -16,11 +16,16 @@ class LoginController {
     		if (dono.dogs) {
     			session['dog_id'] = dono.dogs.first().id 
     		}
-    		redirect (uri: "/")
+    		redirect(controller: "dogs",action: "index")
     	} else {
     		flash.message = "Login ou Senha Inválidos"
 			flash.args = ["error"]
 			redirect(controller: "login",action: "index")
     	}
+    }
+
+    def destroy() {
+        session.invalidate()
+        redirect(controller: "login",action: "index")
     }
 }
