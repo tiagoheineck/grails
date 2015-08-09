@@ -4,6 +4,8 @@ import java.security.MessageDigest
 
 class CadastroController {
 
+    def fileUploadService
+
 	// Como new é palavra reservada alterei para add
 	def add() { } 
 
@@ -11,13 +13,13 @@ class CadastroController {
     	def dono = new Dono(donoParams(params))
 
     	//importar foto
-    	if(params.foto) {
-    		def file = request.getFile("foto")
-    		String fileUpload = fileUploadService.upload(file)
-    		def foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
-    		foto.save(flush: true)
-    		dono.addToFoto(foto)
-    	}
+        if(params.foto) {
+            def file = request.getFile("foto")
+            String fileUpload = fileUploadService.upload(file)
+            def foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
+            foto.save(flush: true)
+            dono.foto = foto
+        }
 
     	//importar demais fotos
     	if(params.files) {
@@ -70,16 +72,16 @@ class CadastroController {
     		foto.url = fileUpload
     		foto.descricao = "Foto do Perfil"
     		foto.save(flush: true)
-    		dono.addToFoto(foto)
+    		dono.foto = foto
     	}
     	if(dono.save(flush: true)){
-            session['dono_id'] = dono.id    
+            session['dono_id'] = dono.id
+            flash.message = "Seu Perfil foi Editado com sucesso"
+            flash.args = ["notice"]
         }
         else{
             dono.errors.allErrors.each { println it }
         }
-    	flash.message = "Seu Perfil foi Editado com sucesso"
-		flash.args = ["notice"]
         redirect(controller: "dogs", action: "index")
     }
 	

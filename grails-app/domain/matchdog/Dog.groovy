@@ -26,4 +26,11 @@ class Dog {
 		datahoraExcluido nullable: true
 		foto nullable: true
     }
+
+    def get_count_matches(){
+    	0
+    }
+    def get_count_latidas(){
+    	0
+    }
 }

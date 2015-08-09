@@ -2,6 +2,8 @@ package matchdog
 
 class DogsController {
 
+    def fileUploadService
+
     def add() {
     	[cidades: Cidade.getAll() , racas:  Raca.getAll()]
     }
@@ -18,7 +20,7 @@ class DogsController {
     		String fileUpload = fileUploadService.upload(file)
     		def foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
     		foto.save(flush: true)
-    		dog.addToFoto(foto)
+    		dog.foto = foto
     	}
 
     	//importar demais fotos
@@ -35,6 +37,9 @@ class DogsController {
             flash.message = "O Dog ${dog.nome} foi Editado com sucesso."
             flash.args = ["notice"]
             session['dog_id'] = dog.id
+        }
+        else{
+             dog.errors.allErrors.each { println it }
         }
         redirect(controller: "dogs",action: "index")
     }

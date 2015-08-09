@@ -6,7 +6,7 @@
 </head>
     <body>
 
-<form name="cadastro" action="/cadastro/update" method="post" multipart="true" class="form-horizontal">
+<form name="cadastro" action="/cadastro/update" method="post" enctype="multipart/form-data" class="form-horizontal">
 
 <div class="row">
 
@@ -18,7 +18,7 @@
 <output  id='fotoperfilinicial' style="display:block">
     <div class="thumbnail">
           <g:if test="${ dono.foto != null}">
-            <img src="/images/${dono.foto.url}">  
+            <img src="/${dono.foto.url}">  
           </g:if>
           <g:else>
             <asset:image src="dono_default_image.png"/>
@@ -171,7 +171,7 @@
         <g:each in="${dono.fotos}">
             adicionarFotoNoAlbum(
                 {
-                    url: '/images/${it.url}',  
+                    url: '/${it.url}',  
                     descricao: '${it.descricao}', 
                     id: '${it.title}'
                 }
@@ -198,7 +198,7 @@
         
         mediaDropzone.on("success", function(file, responseText) {
             var foto =  {
-                url: '/images/'+responseText.url,  
+                url: '/'+responseText.url,  
                 descricao: responseText.descricao, 
                 id: responseText.id
             };
