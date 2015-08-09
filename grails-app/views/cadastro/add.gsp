@@ -6,7 +6,7 @@
 </head>
     <body>
 
-<form name="cadastro" action="/cadastro/create" method="post" multipart="true" class="form-horizontal">
+<form name="cadastro" action="/cadastro/create" method="post" enctype="multipart/form-data" class="form-horizontal">
 
 <div class="col-md-5">
 

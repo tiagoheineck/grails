@@ -4,6 +4,8 @@ import java.security.MessageDigest
 
 class CadastroController {
 
+    def fileUploadService
+
 	// Como new é palavra reservada alterei para add
 	def add() { } 
 
@@ -11,24 +13,18 @@ class CadastroController {
     	def dono = new Dono(donoParams(params))
 
     	//importar foto
-    	if(params.foto) {
-    		def file = request.getFile("foto")
-    		String fileUpload = fileUploadService.upload(file)
-    		def foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
-    		foto.save(flush: true)
-    		dono.addToFoto(foto)
-    	}
+        dono.foto = null
+        if(params.foto) {
+            def file = request.getFile("foto")
+            String fileUpload = fileUploadService.upload(file)
+            if (fileUpload){
+                def foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
+                foto.save(flush: true)
+                println 'setting foto'
+                dono.foto = foto
+            }
+        }
 
-    	//importar demais fotos
-    	if(params.files) {
-    		params.files.each {
-    			file = request.getFile("foto")
-    			String fileUpload = fileUploadService.upload(file)
-    			foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
-    			foto.save(flush: true)
-    			dono.addToFoto(foto)
-    		}
-    	}
     	dono.password = MessageDigest.getInstance("MD5").digest(params.password.getBytes("UTF-8")).encodeHex().toString()
     	if(dono.save(flush: true)){
             session['dono_id'] = dono.id    
@@ -44,10 +40,6 @@ class CadastroController {
     }
 
     def edit() {
-    	[dono: Dono.get(session['dono_id'])]
-    }
-
-    def complete() {
     	[dono: Dono.get(session['dono_id'])]
     }
 
@@ -70,16 +62,28 @@ class CadastroController {
     		foto.url = fileUpload
     		foto.descricao = "Foto do Perfil"
     		foto.save(flush: true)
-    		dono.addToFoto(foto)
+    		dono.foto = foto
     	}
+
+        //importar demais fotos
+        if(params.files) {
+            params.files.each {
+                file = request.getFile("foto")
+                String fileUpload = fileUploadService.upload(file)
+                foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
+                foto.save(flush: true)
+                dono.addToFoto(foto)
+            }
+        }
+
     	if(dono.save(flush: true)){
-            session['dono_id'] = dono.id    
+            session['dono_id'] = dono.id
+            flash.message = "Seu Perfil foi Editado com sucesso"
+            flash.args = ["notice"]
         }
         else{
             dono.errors.allErrors.each { println it }
         }
-    	flash.message = "Seu Perfil foi Editado com sucesso"
-		flash.args = ["notice"]
         redirect(controller: "dogs", action: "index")
     }
 	

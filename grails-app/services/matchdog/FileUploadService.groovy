@@ -5,12 +5,14 @@ import grails.transaction.Transactional
 @Transactional
 class FileUploadService {
 
+	def servletContext
+
     def upload(file) {
-    	def nomeOriginal = file.originalFilename		
-		def f = request.getFile("foto")
- 		if(!f.empty){
-			f.transferTo(new File(${serveletContext.getRealPath( destinationDirectory )} + "/${nomeOriginal}"))
+ 		if(file.originalFilename){
+ 			def nomeOriginal = file.originalFilename
+			file.transferTo(new File(servletContext.getRealPath( "/" ) , nomeOriginal))
+			return nomeOriginal
 		}
-		return nomeOriginal
+		return ''
 	}    
 }
