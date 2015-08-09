@@ -1,11 +1,13 @@
 package matchdog
 
+import java.security.MessageDigest
+
 class CadastroController {
 
 	// Como new é palavra reservada alterei para add
 	def add() { } 
 
-    def save() {
+    def create() {
     	def dono = new Dono(donoParams(params))
 
     	//importar foto
@@ -27,13 +29,18 @@ class CadastroController {
     			dono.addToFoto(foto)
     		}
     	}
-    	dono.password = MessageDigest.getInstance("MD5").digest(params.password).encodeHex().toString()
-    	dono.save(flush: true)
+    	dono.password = MessageDigest.getInstance("MD5").digest(params.password.getBytes("UTF-8")).encodeHex().toString()
+    	if(dono.save(flush: true)){
+            session['dono_id'] = dono.id    
+        }
+        else{
+            dono.errors.allErrors.each { println it }
+        }
     	redirect(controller: "cadastro", action: "first_dog")
     }
 
     def first_dog() {
-    	[cidades: Cidade.getAll().collect {[it.nome,it.id]} , racas:  Raca.getAll().collect {[it.nome,it.id]}]
+    	[cidades: Cidade.getAll() , racas:  Raca.getAll()]
     }
 
     def edit() {
@@ -49,12 +56,13 @@ class CadastroController {
     	dono.nome = params.nome
     	dono.sexo = params.sexo
     	dono.email = params.email
-    	dono.password = params.password
+
+        //importar foto
     	if(params.foto) {
     		def file = request.getFile("foto")
     		String fileUpload = fileUploadService.upload(file)
     		def foto
-    		if(dono.foto) {
+    		if(dono.foto == null) {
     			foto = new Foto()
     		} else {
     			foto = dono.foto
@@ -64,13 +72,19 @@ class CadastroController {
     		foto.save(flush: true)
     		dono.addToFoto(foto)
     	}
-    	dono.save(flush:true)
+    	if(dono.save(flush: true)){
+            session['dono_id'] = dono.id    
+        }
+        else{
+            dono.errors.allErrors.each { println it }
+        }
     	flash.message = "Seu Perfil foi Editado com sucesso"
 		flash.args = ["notice"]
+        redirect(controller: "dogs", action: "index")
     }
 	
 
-    private void donoParams(params){
+    def private donoParams(params){
     	[nome: params.nome, sexo: params.sexo, email: params.email, password: params.password]
     }  
 

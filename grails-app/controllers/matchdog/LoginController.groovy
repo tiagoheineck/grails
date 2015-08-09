@@ -1,13 +1,15 @@
 package matchdog
 
+import java.security.MessageDigest
+
 class LoginController {
 
     def index() { }
 
     def create() {    	
-    	def dono = Dono.withCriteria {
-    		eq email, params.email
-    		eq password = MessageDigest.getInstance("MD5").digest(params.password).encodeHex().toString()
+    	def dono = Dono.withCriteria(uniqueResult: true) {
+    		eq('email', params.email)
+    		eq('password',MessageDigest.getInstance("MD5").digest(params.password.getBytes("UTF-8")).encodeHex().toString())
     	}
     	if (dono) {
     		session['dono_id'] = dono.id

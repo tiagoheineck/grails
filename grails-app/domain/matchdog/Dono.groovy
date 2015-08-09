@@ -6,6 +6,8 @@ class Dono {
 	String email
 	String password
 
+	Foto foto
+
 	// desnecessario pois nao teremos login via Face
 	//String provider
 	//String uid
@@ -14,11 +16,12 @@ class Dono {
 
 	static belongsTo = Foto
 
-	static hasMany = [fotos: Foto]
+	static hasMany = [fotos: Foto, dogs: Dog]
 
     static constraints = {
-    	nome size: 3..50, blank: false
-    	sexo maxSize: 1, blank: false
-    	email blank:false
+    	nome size: 3..50, nullable: false, blank: false
+    	sexo maxSize: 1, nullable: false, blank: false
+    	email nullable: false, blank:false
+    	foto nullable: true
     }
 }

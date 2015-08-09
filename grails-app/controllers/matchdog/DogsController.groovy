@@ -3,11 +3,14 @@ package matchdog
 class DogsController {
 
     def add() {
-    	[cidades: Cidade.getAll().collect {[it.nome,it.id]} , racas:  Raca.getAll().collect {[it.nome,it.id]}]
+    	[cidades: Cidade.getAll() , racas:  Raca.getAll()]
     }
 
     def create() {
     	def dog = new Dog(dogParams(params))
+        dog.raca = Raca.get(params.raca)
+        dog.cidade = Cidade.get(params.cidade)
+        dog.dono = Dono.get(session['dono_id'])
 
     	//importar foto
     	if(params.foto) {
@@ -27,17 +30,18 @@ class DogsController {
     			foto.save(flush: true)
     			dog.addToFoto(foto)
     		}
-    	}    	
-    	dog.save(flush: true)
-    	flash.message = "O Dog ${dog.nome} foi Editado com sucesso."
-    	flash.args = ["notice"]
-    	session['dog_id'] = dog.id
-    	redirect(controller: "dogs",action: "index")
+    	}
+    	if(dog.save(flush: true)){
+            flash.message = "O Dog ${dog.nome} foi Editado com sucesso."
+            flash.args = ["notice"]
+            session['dog_id'] = dog.id
+        }
+        redirect(controller: "dogs",action: "index")
     }
 
     def update() {
     	def dog = Dono.get(params.id)
-    	dog.properties = params
+    	//dog.properties = params
     	if(params.foto) {
     		def file = request.getFile("foto")
     		String fileUpload = fileUploadService.upload(file)
@@ -75,7 +79,7 @@ class DogsController {
     }
 
     def index() {
-    	[dogs: Dono.get(['dono_id']).dogs]
+    	[dogs: Dono.get(session['dono_id']).dogs]
     }
 
     def show() {
@@ -92,14 +96,13 @@ class DogsController {
     	}
     }
 
-    private void dogParams(params) {
+    def private dogParams(params) {
     	[
     		nome: params.nome,
-    		descricaoPerfil: params.descricaoPerfil,
-    		temPedrigree: params.temPedrigree,
+            sexo: params.sexo,
+    		temPedigree: params.temPedigree,
     		interessaCruzar: params.interessaCruzar,
-    		interessaPassear: params.interessaPassear,
-    		datahoraExcluido: params.datahoraExcluido
+    		interessaPassear: params.interessaPassear
     	]
     }
 }
