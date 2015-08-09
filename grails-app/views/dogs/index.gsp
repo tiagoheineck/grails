@@ -18,7 +18,7 @@
     
   <div class="col-sm-6 col-md-4 same-height">
     <div class="thumbnail">
-      <a href="/dogs/${it.id}">
+      <a href="/dogs/show/${it.id}">
           <g:if test="${ it.foto != null}">
             <img src="/${it.foto.url}">  
           </g:if>
@@ -60,8 +60,8 @@
                   </g:if>
         </ul>
         <p>
-            <a href="/dogs/${ it.id}" class="btn btn-primary" role="button">Encontrar um par</a>
-            <a href="/dogs/${ it.id}/edit" class="btn btn-warning" role="button">Editar</a>
+            <a href="/dogs/show/${ it.id}" class="btn btn-primary" role="button">Encontrar um par</a>
+            <a href="/dogs/edit/${ it.id}" class="btn btn-warning" role="button">Editar</a>
             <button data-toggle="modal" data-target="#deleteDogModal" data-id="${ it.id}" data-nome="${ it.nome}" class="btn btn-danger" role="button">Excluir</button>
         </p>
       </div>
@@ -83,12 +83,9 @@
           Você tem certeza que <b>deseja remover <span id="nome"></span>?</b>
         </div>
         <div class="modal-footer">
-            <form id="form_excluir_dog" class="button_to" method="post" action="">
-              <input type="hidden" name="_method" value="delete">
               <button type="button" class="btn btn-default" data-dismiss="modal">Não! Não quero remover.</button>
-              <input class="btn btn-primary" type="submit" value="Sim! Quero remover!">
-              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-              </form>
+              <a id="link_excluir_dog" href="" class="btn btn-primary">Sim! Quero remover!</a>
+              
           
         </div>
       </div><!-- /.modal-content -->
@@ -103,7 +100,7 @@
       
       var modal = $(this)
       modal.find('#nome').text(dog_nome)
-      modal.find('#form_excluir_dog').attr("action", "/dogs/"+String(dog_id))
+      modal.find('#link_excluir_dog').attr("href", "/dogs/destroy/"+String(dog_id))
     })
     
     $( document ).ready(function() {

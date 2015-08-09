@@ -18,9 +18,11 @@ class DogsController {
     	if(params.foto) {
     		def file = request.getFile("foto")
     		String fileUpload = fileUploadService.upload(file)
-    		def foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
-    		foto.save(flush: true)
-    		dog.foto = foto
+            if (fileUpload){
+                def foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
+                foto.save(flush: true)
+                dog.foto = foto    
+            }
     	}
 
     	//importar demais fotos
@@ -45,22 +47,30 @@ class DogsController {
     }
 
     def update() {
-    	def dog = Dono.get(params.id)
-    	//dog.properties = params
+    	def dog = Dog.get(params.id)
+    	dog.properties = dogParams(params)
+        dog.raca = Raca.get(params.raca)
+        dog.cidade = Cidade.get(params.cidade)
+
+        println 'FOTO:' + params.foto
     	if(params.foto) {
     		def file = request.getFile("foto")
     		String fileUpload = fileUploadService.upload(file)
-    		def foto
-    		if(dog.foto) {
-    			foto = new Foto()
-    		} else {
-    			foto = dog.foto
-    		}   		
-    		foto.url = fileUpload
-    		foto.descricao = "Foto do Perfil"
-    		foto.save(flush: true)
-    		dog.addToFoto(foto)
+            print 'file:' +fileUpload
+            if (fileUpload) {
+                def foto
+                if(!dog.foto) {
+                    foto = new Foto()
+                } else {
+                    foto = dog.foto
+                }           
+                foto.url = fileUpload
+                foto.descricao = "Foto do Perfil"
+                foto.save(flush: true)
+                dog.foto = foto
+            }
     	}
+
     	dog.save(flush:true)
     	flash.message = "${dog.nome} foi Editado com sucesso"
 		flash.args = ["notice"]
@@ -68,7 +78,7 @@ class DogsController {
     }
 
     def edit() {
-    	[dog: Dog.get(params.id)]
+    	[dog: Dog.get(params.id) , cidades: Cidade.getAll() , racas:  Raca.getAll()]
     }
 
     def destroy() {
@@ -82,9 +92,9 @@ class DogsController {
     	}
     	redirect (controller: "dogs", action: "index")
     }
-
+    
     def index() {
-    	[dogs: Dono.get(session['dono_id']).dogs]
+    	[dogs: Dog.find('from Dog where datahoraExcluido is null and dono_id  = :dono_id', [dono_id: session['dono_id']])]
     }
 
     def show() {

@@ -8,10 +8,11 @@ class FileUploadService {
 	def servletContext
 
     def upload(file) {
-    	def nomeOriginal = file.originalFilename
- 		if(!file.empty){
+ 		if(file.originalFilename){
+ 			def nomeOriginal = file.originalFilename
 			file.transferTo(new File(servletContext.getRealPath( "/" ) , nomeOriginal))
+			return nomeOriginal
 		}
-		return nomeOriginal
+		return ''
 	}    
 }
