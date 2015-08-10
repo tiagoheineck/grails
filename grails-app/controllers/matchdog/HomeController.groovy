@@ -3,7 +3,7 @@ package matchdog
 class HomeController {
 
     def index(){
-    	//to perdidão aqui   	
+    	[alvos : Dog.findAll() ]
     }
 
     def farejar(){

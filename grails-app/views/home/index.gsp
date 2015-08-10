@@ -12,7 +12,7 @@
             
                     <div id="alvo-${ d.id }" class="alvo">
                         <div class="row-fluid">
-                            <g:if test="${d.descricao_perfil != null}">
+                            <g:if test="${d.descricaoPerfil != null}">
                                 <div class="col-md-12 desc-alvo">
                                     ${ d.descricao_perfil }
                                     | Cidade: ${ d.cidade.nome } | Raça: ${ d.raca.nome } | sexo: <%= d.sexo %>
@@ -23,7 +23,7 @@
                             </div>
                             <div id="alvo-dog" class="col-md-5 alvo-nome">
                                 <!-- só deve ter a classe glyphicon-certificate SE TIVER PEDIGREE-->
-                                <g:if test="${d.tem_pedigree != null && !d.tem_pedigree.isEmpty()}">
+                                <g:if test="${d.temPedigree}">
                                     <span class="glyphicon glyphicon-certificate"></span>
                                 </g:if>
                                 <span class="alvo-nome">${ d.nome }</span>
@@ -31,7 +31,7 @@
                                     <div id="foto-alvo-dog" class="foto-alvo inclina1">
                                         <span class="glyphicon glyphicon-camera"></span>
                                         <g:if test="${d.foto != null && !d.foto.isEmpty()}">
-                                            <img src="/images/${d.foto.url}">  
+                                            <img src="/${d.foto.url}">  
                                         </g:if>
                                         <g:else>  
                                             <asset:image src="dog_default_image.png"/>  
@@ -41,11 +41,12 @@
                             </div>
                             <div id="alvo-dono" class="col-md-5 alvo-nome">
                                 <span class="">${ d.dono.nome }</span>
-                                <a href="/album/dono/${ d.dono.id }" class="fancybox fancybox.ajax">
+                                %{-- album/dono/${ d.dono.id } --}%
+                                <a href="/" class="fancybox fancybox.ajax">
                                     <div id="foto-alvo-dono" class="foto-alvo inclina2">
                                         <span class="glyphicon glyphicon-camera"></span>
-                                        <g:if test="${d.dono.foto != null && !d.dono.foto.isEmpty()}">
-                                            <img src="/images/${ d.dono.foto.url }">  
+                                        <g:if test="${d.dono.foto}">
+                                            <img src="/${ d.dono.foto.url }">  
                                         </g:if>
                                         <g:else>
                                             <asset:image src="dono_default_image.png"/>      
@@ -61,8 +62,6 @@
                         </div>
                     </div>
                 </g:each>
-            
-            
             
             
             <div id="sem-alvo" class="alvo">
@@ -83,7 +82,7 @@
         $(document).ready(function() {
             var owl = $(".owl-carousel");
             owl.owlCarousel({
-               %{-- /*items : ${alvos.length },*/ --}%
+                items : 2,
                 singleItem : true,
                 navigation : false,
                 navigationText : ["voltar","uau!"],
