@@ -15,14 +15,15 @@ class HomeController {
 
     def curtir() {
     	def curtida = new Curtida()
-    	curtida.dog_id = session['dog_id']
-    	curtida.dog_alvo_id = params.dog_id
+    	curtida.dog = Dog.get(session['dog_id'])
+    	curtida.dogAlvo = Dog.get(params.dog_id)
     	curtida.curtiu = params.curtiu
     	curtida.save(flush:true)
 
     	def deumatch = false
-    	if (curtida.curtida) {
-    		def curtidaCorrespondente = Curtida.where(dog: curtida.dog_alvo_id).where(dogAlvo: curtida.dog).where(curtiu: true).first()
+        /*
+    	if (curtida.curtiu) {
+    		def curtidaCorrespondente = Curtida.where(dog: curtida.dogAlvo).where(dogAlvo: curtida.dog).where(curtiu: true).first()
  			if (curtidaCorrespondente) {
  				deumatch = true
  				def m = new Match([dog1: curtidaCorrespondente.dogAlvo,dog2: curtida.dog]) 				
@@ -30,7 +31,7 @@ class HomeController {
  				flash.message = "MATCH!!!"
 				flash.args = ["error"]
  			}   		
-    	}
+    	}*/
     }
 
     private void faroParams(){}
