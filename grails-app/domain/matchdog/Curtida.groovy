@@ -1,7 +1,7 @@
 package matchdog
 
 class Curtida {
-	static belongsTo = [dog: Dog, dogAlvo: Dog, match: Match]
+	static belongsTo = [dog: Dog, dogAlvo: Dog]
 	Boolean curtiu
 
     static constraints = {
