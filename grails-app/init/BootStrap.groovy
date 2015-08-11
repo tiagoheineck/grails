@@ -27,6 +27,7 @@ class BootStrap {
         assert dono.save(failOnError:true, flush:true, insert: true) 
         def dog = new matchdog.Dog(nome: 'Bolica', sexo: 'M', descricaoPerfil: 'Cão chupando manga',
             temPedigree: true, interessaCruzar: true, interessaPassear: true, dono: dono, raca: raca, cidade: cidade)      
+        assert dog.save(failOnError:true, flush:true, insert: true) 
     }
 
 }
