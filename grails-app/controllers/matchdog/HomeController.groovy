@@ -3,7 +3,7 @@ package matchdog
 class HomeController {
 
     def index(){
-    	[alvos : Dog.findAll() ]
+    	[alvos : Dog.find('from Dog where dono_id != :dono_id', [dono_id: session['dono_id']]) ]
     }
 
     def farejar(){

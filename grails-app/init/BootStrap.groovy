@@ -28,6 +28,11 @@ class BootStrap {
         def dog = new matchdog.Dog(nome: 'Bolica', sexo: 'M', descricaoPerfil: 'Cão chupando manga',
             temPedigree: true, interessaCruzar: true, interessaPassear: true, dono: dono, raca: raca, cidade: cidade)      
         assert dog.save(failOnError:true, flush:true, insert: true) 
+        def dono2 = new matchdog.Dono(nome: 'Joaquim', sexo: 'M', email: 'b@b.com', password: java.security.MessageDigest.getInstance("MD5").digest('123'.getBytes("UTF-8")).encodeHex().toString())
+        assert dono2.save(failOnError:true, flush:true, insert: true) 
+        def dog2 = new matchdog.Dog(nome: 'Catiço', sexo: 'M', descricaoPerfil: '',
+            temPedigree: true, interessaCruzar: true, interessaPassear: true, dono: dono2, raca: raca, cidade: cidade)      
+        assert dog2.save(failOnError:true, flush:true, insert: true) 
     }
 
 }
