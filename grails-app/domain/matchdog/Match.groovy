@@ -10,5 +10,9 @@ class Match {
     static constraints = {
     	dog1 blank: false
     	dog2 blank: false
+    	datahoraDog1Viu nullable: true
+    	datahoraDog2Viu nullable: true
+    	datahoraDog1Desistiu nullable: true
+    	datahoraDog2Desistiu nullable: true
     }
 }

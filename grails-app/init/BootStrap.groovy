@@ -33,6 +33,8 @@ class BootStrap {
         def dog2 = new matchdog.Dog(nome: 'Catiço', sexo: 'M', descricaoPerfil: '',
             temPedigree: true, interessaCruzar: true, interessaPassear: true, dono: dono2, raca: raca, cidade: cidade)      
         assert dog2.save(failOnError:true, flush:true, insert: true) 
+        def match = new matchdog.Match(dog1: dog, dog2: dog2)
+        assert match.save(failOnError:true, flush:true, insert: true) 
     }
 
 }
