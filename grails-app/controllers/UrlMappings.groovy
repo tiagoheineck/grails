@@ -7,10 +7,7 @@ class UrlMappings {
             }
         }
 
-        "/"{
-            controller = "Login"
-            action = "index"
-        }
+        "/"(controller:'home', action:'index')
         "/home"(controller:'home', action:'index')
         "/logout"(controller:'login', action:'destroy')
         "/farejar"(controller:'home',action: 'farejar')                

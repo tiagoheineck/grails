@@ -14,7 +14,7 @@
                         <div class="row-fluid">
                             <g:if test="${d.descricaoPerfil != null}">
                                 <div class="col-md-12 desc-alvo">
-                                    ${ d.descricao_perfil }
+                                    ${ d.descricaoPerfil }
                                     | Cidade: ${ d.cidade.nome } | Raça: ${ d.raca.nome } | sexo: <%= d.sexo %>
                                 </div>
                             </g:if>
@@ -124,6 +124,7 @@
                     data: {id: alvo_id, curtiu: false},
                     success: function (data) { 
                         owl.trigger('owl.next');
+                        console.log(data.curtiu)
                     }
                 });
             });
