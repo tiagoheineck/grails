@@ -66,7 +66,7 @@ Equipe:
 <div class="form-group">
   <div class="col-md-10">
     <center>
-    <a href="/auth/facebook" id="singlebutton" name="singlebutton" class="btn btn-primary btn-lg">
+    <a href="/auth/facebook" id="singlebutton" disabled="disabled" name="singlebutton" class="btn btn-primary btn-lg">
       <i class="fa fa-facebook-official fa-fw"></i> Entrar com Facebook</a>
       </center>
   </div>

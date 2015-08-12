@@ -27,6 +27,10 @@ class Dog {
 		foto nullable: true
     }
 
+    static mapping = {
+        foto column: "foto_perfil_id"
+    }
+
     def get_count_matches(){
     	0
     }

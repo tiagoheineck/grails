@@ -24,4 +24,8 @@ class Dono {
     	email nullable: false, blank:false
     	foto nullable: true
     }
+
+    static mapping = {
+        foto column: "foto_perfil_id"
+    }
 }
