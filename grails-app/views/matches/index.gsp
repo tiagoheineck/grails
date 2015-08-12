@@ -46,28 +46,24 @@
 		                	<div class="col-sm-2 foto-alvo-mini match-dog">
 			                    <a href="/album/dog/${m.dog1.id}" class="fancybox fancybox.ajax">
 			                        <span class="glyphicon glyphicon-camera"></span>
-
-			                        %{-- criar taglib outroDogFotoUrl 
-			                        <% if !outro_dog.foto.nil? %>
-			                            <img src="/images/<%= outro_dog.foto.url %>"> 
-			                        <% else %>    
-			                            <%= image_tag "dog_default_image.png" %> 
-			                        <% end %>  
-			                        --}%
-
+									<g:if test="${ m.dog1.foto != null}">
+						            	<img src="/${m.dog1.foto.url}">  
+						          	</g:if>
+						          	<g:else>
+							            <asset:image src="dog_default_image.png"/>
+							        </g:else>
 			                    </a>
 			                    ${m.dog1.nome}
 		                	</div>
 			                <div class="col-sm-2 foto-alvo-mini match-dono">
 			                    <a href="/album/dono/${m.dog1.id}" class="fancybox fancybox.ajax">
 			                        <span class="glyphicon glyphicon-camera"></span>
-			                        %{-- criar taglib outroDogDonoFotoUrl
-			                        <% if !outro_dog.dono.foto.nil? %>
-			                            <img src="/images/<%= outro_dog.dono.foto.url %>"> 
-			                        <% else %>    
-			                            <%= image_tag "dono_default_image.png" %> 
-			                        <% end %> 
-			                        --}%
+		                        	<g:if test="${ m.dog1.dono.foto != null}">
+						            	<img src="/${m.dog1.dono.foto.url}">  
+						          	</g:if>
+						          	<g:else>
+							            <asset:image src="dono_default_image.png"/>
+							        </g:else>
 			                    </a>
 			                    ${m.dog1.dono.nome}
 			                </div>
@@ -78,14 +74,12 @@
 		                	<div class="col-sm-2 foto-alvo-mini match-dog">
 			                    <a href="/album/dog/${m.dog2.id}" class="fancybox fancybox.ajax">
 			                        <span class="glyphicon glyphicon-camera"></span>
-
-			                        %{-- criar taglib outroDogFotoUrl 
-			                        <% if !outro_dog.foto.nil? %>
-			                            <img src="/images/<%= outro_dog.foto.url %>"> 
-			                        <% else %>    
-			                            <%= image_tag "dog_default_image.png" %> 
-			                        <% end %>  
-			                        --}%
+									<g:if test="${ m.dog2.foto != null}">
+						            	<img src="/${m.dog2.foto.url}">  
+						          	</g:if>
+						          	<g:else>
+							            <asset:image src="dog_default_image.png"/>
+							        </g:else>
 
 			                    </a>
 			                    ${m.dog2.nome}
@@ -93,20 +87,17 @@
 			                <div class="col-sm-2 foto-alvo-mini match-dono">
 			                    <a href="/album/dono/${m.dog2.id}" class="fancybox fancybox.ajax">
 			                        <span class="glyphicon glyphicon-camera"></span>
-			                        %{-- criar taglib outroDogDonoFotoUrl
-			                        <% if !outro_dog.dono.foto.nil? %>
-			                            <img src="/images/<%= outro_dog.dono.foto.url %>"> 
-			                        <% else %>    
-			                            <%= image_tag "dono_default_image.png" %> 
-			                        <% end %> 
-			                        --}%
+									<g:if test="${ m.dog2.dono.foto != null}">
+						            	<img src="/${m.dog2.dono.foto.url}">  
+						          	</g:if>
+						          	<g:else>
+							            <asset:image src="dono_default_image.png"/>
+							        </g:else>
 			                    </a>
 			                    ${m.dog2.dono.nome}
 			                </div>
 			                <div class="col-sm-3">
 		                </g:if>
-
-
 
 		                <!--
 		                   <a href="/latidas/domatch/<%= m.id %>" class="fancybox fancybox.ajax btn btn-success form-control"><span class="glyphicon glyphicon-comment"></span>Latir</a>
