@@ -8,19 +8,8 @@ class MatchesController {
 
         [matches : Match.find('from Match where dog1_id = :dog_id OR dog2_id = :dog_id AND (DATAHORA_DOG1DESISTIU is null and DATAHORA_DOG2DESISTIU is null)  )', [dog_id: session['dog_id']])]
         
-       /*def matches = Match.withCriteria{
-            eq dog1_id, session['dog_id']
-            or {
-                eq dog2_id, session['dog_id']
-            }
-            not {
-                datahora_dog1_desistiu = null
-                datahora_dog2_desistiu = null
-            }       
-            order created_at, DESC  
-        }
-        */
-    	matches.each {
+    	/* ARTUR, ESSE TRECHO AQUI QUE NÃO FUNCIONA
+        matches.each {
     		switch(session['dog_id']) {
     			case it.dog1.id:
     				m.datahoraDog1Viu = Calendar.instance.time
@@ -31,7 +20,7 @@ class MatchesController {
     		}
     		it.save(flush:true)
     	}
-
+        */
 
     }
 
