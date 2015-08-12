@@ -89,6 +89,7 @@ class DogsController {
     	def dog = Dog.get(params.id)
     	if (dog.dono.id == session['dono_id']){
     		session['dog_id'] = dog.id
+            session['current_faro'] = createInitialFaro()
     		flash.message = "${dog.nome} foi Selecionado com sucesso"
 			flash.args = ["notice"]
 			redirect (uri: "/")
@@ -107,5 +108,17 @@ class DogsController {
     		interessaCruzar: params.interessaCruzar,
     		interessaPassear: params.interessaPassear
     	]
+    }
+
+    def private createInitialFaro() {
+        def current_dog = Dog.get(session['dog_id'])
+        def faro = new Faro()
+        faro.sexoDono          = current_dog.dono.sexo == 'M' ? 'F' : 'M'
+        faro.sexoDog           = current_dog.sexo == 'M' ? 'F' : 'M'
+        faro.raca              = current_dog.raca
+        faro.cidade            = current_dog.cidade
+        faro.interessaPassear  = current_dog.interessaPassear
+        faro.interessaCruzar   = current_dog.interessaCruzar
+        faro
     }
 }

@@ -65,7 +65,7 @@
 <div class="form-group">
     <div class="col-md-5">
     <select id="sexo" name="sexo" required="required" class="form-control">
-        <option value="M" <g:if test="${dog.sexo == 'M'}"> selected="selected" </g:if> >Masculino</option>
+        <option value="M" <g:if test="${dog.sexo == 'M'}"> selected="selected" </g:if>>Masculino</option>
         <option value="F" <g:if test="${dog.sexo == 'F'}"> selected="selected" </g:if>>Feminino</option>
     </select>
     </div>

@@ -6,17 +6,19 @@ class LoginController {
 
     def index() { }
 
-    def create() {    	
+    def create() {
     	def dono = Dono.withCriteria(uniqueResult: true) {
     		eq('email', params.email)
     		eq('password',MessageDigest.getInstance("MD5").digest(params.password.getBytes("UTF-8")).encodeHex().toString())
     	}
     	if (dono) {
     		session['dono_id'] = dono.id
-    		if (dono.dogs) {
-    			session['dog_id'] = dono.dogs.first().id 
+    		if (dono.dogs && dono.dogs.size() == 1){
+                redirect(controller: "dogs",action: "show", id: dono.dogs.first().id)
     		}
-    		redirect(controller: "dogs",action: "index")
+            else{
+                redirect(controller: "dogs",action: "index")    
+            }
     	} else {
     		flash.message = "Login ou Senha Inválidos"
 			flash.args = ["error"]
@@ -28,4 +30,5 @@ class LoginController {
         session.invalidate()
         redirect(controller: "login",action: "index")
     }
+    
 }

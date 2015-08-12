@@ -7,10 +7,15 @@ class HomeController {
     }
 
     def farejar(){
-    	def faro = new Faro(params)
-    	faro.dog_id = session['dog_id']
-    	faro.save(flush: true)
-    	redirect(uri:"/")    	
+    	def faro = new Faro(faroParams(params))
+        faro.datahora = Calendar.instance.time
+    	faro.dog = Dog.get(session['dog_id'])
+    	if(faro.save(flush: true)){
+            session['current_faro'] = faro
+        }else{
+            faro.errors.allErrors.each { println it }
+        }
+    	redirect(uri:"/")
     }
 
     def curtir() {
@@ -27,7 +32,7 @@ class HomeController {
             
  			if (curtidaCorrespondente) {
  				deumatch = true
- 				def m = new Match([dog1: curtidaCorrespondente.dogAlvo,dog2: curtida.dog, datahora: Calendar.instance.time]) 				
+ 				def m = new Match([dog1: curtidaCorrespondente.dogAlvo,dog2: curtida.dog, datahora: Calendar.instance.time])
  				m.save(flush: true)
  				flash.message = "MATCH!!!"
 				flash.args = ["error"]
@@ -38,6 +43,15 @@ class HomeController {
         }
     }
 
-    private void faroParams(){}
+    private faroParams(params){
+        [
+            sexoDono: params.sexoDono,
+            sexoDog: params.sexoDog,
+            raca: Raca.get(params.raca),
+            cidade: Cidade.get(params.cidade),
+            interessaCruzar: params.interessaCruzar? true: false,
+            interessaPassear: params.interessaPassear? true: false
+        ]
+    }
 
 }

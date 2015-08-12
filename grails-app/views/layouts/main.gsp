@@ -89,38 +89,30 @@
               <span> <asset:image src="icon_matchDog100.png"/> </span>
             </div>
             <div class="col-sm-8 busca">
-%{--
-            <!-- aqui era variável de instância  @current_dog -->
+
               <g:ifCurrentDog>
                 <g:form name="" class="form-horizontal" action="farejar">
                   <div class="form-group">
                     <div class="col-sm-1 col-padding-reduce">
                       <span>Procuro </span>
-                      <select id="sexo" name="faro[sexo_dono]" class="form-control">
-                          <option value="M"
-                            <g:if test="${current_faro.sexo_dono == 'M'}">  'selected="selected"'</g:if>
-                          >Homem</option>
-                          <option value="F"
-                           <g:if test="${current_faro.sexo_dono == 'F'}">  'selected="selected"'</g:if>
-                           >Mulher</option>
+                      <select id="sexo" name="sexoDono" class="form-control">
+                          <option value="M" <g:if test="${session.current_faro.sexoDono == 'M'}">  selected="selected" </g:if>>Homem</option>
+                          <option value="F" <g:if test="${session.current_faro.sexoDono == 'F'}">  selected="selected" </g:if>>Mulher</option>
                       </select>
                     </div>
 
                     <div class="col-sm-3 col-padding-reduce">
                       <span> dono(a) de </span>
-                        <g:select id="faro_raca_id" class="form-control" name='faro[raca_id]' value="${current_faro?.raca_id}"
-                            noSelection="${['null':'Selecione']}"
-                            from='${get_racas}'
-                            optionKey="id" optionValue="nome"></g:select>
-
+                        <g:select id="faro_raca_id" class="form-control" name='raca' value="${session.current_faro.raca.id}"
+                            from='${ matchdog.Raca.getAll()}'
+                            optionKey="id" 
+                            optionValue="nome"></g:select>
                     </div>
                     <div class="col-sm-1 col-padding-reduce">
                       <span>que seja</span>
-                      <select id="sexoDog" name="faro[sexo_dog]" class="form-control">
-                          <option value="M" <g:if test="${current_faro.sexo_dog == 'M'}">  'selected="selected"'</g:if>
-                            >Macho</option>
-                          <option value="F" <g:if test="${current_faro.sexo_dog == 'F'}">  'selected="selected"'</g:if>
-                          >Fêmea</option>
+                      <select id="sexoDog" name="sexoDog" class="form-control">
+                          <option value="M" <g:if test="${session.current_faro.sexoDog == 'M'}">  selected="selected" </g:if>>Macho</option>
+                          <option value="F" <g:if test="${session.current_faro.sexoDog == 'F'}"> selected="selected" </g:if>>Fêmea</option>
                       </select>
                     </div>
                     
@@ -128,26 +120,26 @@
                       <span>para </span>
                       <br>
                       <span>
-                            <input type="checkbox" name="faro[interessa_cruzar]" id="faro_interessa_cruzar" 
-                                value="1" <g:if test="${current_faro.interessa_cruzar == '1'}">  'checked="checked"'</g:if>
-                                >
+                            <input type="checkbox" name="interessaCruzar" id="faro_interessa_cruzar" 
+                                value="1" <g:if test="${session.current_faro.interessaCruzar}">  checked="checked"</g:if>>
                       </span>
                       <span>cruzar </span>
                       <br>
-                      <input type="checkbox" name="faro[interessa_passear]" id="faro_interessa_passear" 
-                                value="1" <g:if test="${current_faro.interessa_passear == '1'}">  'checked="checked"'</g:if>>
-
-                       <span>passear </span>
+                      <span>
+                      <input type="checkbox" name="interessaPassear" id="faro_interessa_passear" 
+                                value="1" <g:if test="${session.current_faro.interessaPassear}">checked="checked"</g:if>>
+                      </span>
+                      <span>passear </span>
                     </div>
                     <div class="col-sm-3 col-padding-reduce">
                        <span>na cidade</span>
-
-                        <g:select id="faro_cidade_id" class="form-control" name='faro[cidade_id]' value="${current_faro?.cidade_id}"
-                        noSelection="${['null':'Selecione']}"
-                        from='${get_cidades}'
-                        optionKey="id" optionValue="nome"></g:select>
-
-
+                        <g:select name="cidade"
+                            from='${matchdog.Cidade.getAll()}'
+                            class="form-control"
+                            optionKey="id" 
+                            optionValue="nome"
+                            value="${session.current_faro.cidade.id}"
+                             />
                     </div>
                     <div class="col-sm-2 col-padding-reduce">
                         <button type="submit" id="farejar_bt" name="farejar" class="btn btn-danger btn-block" value="">
@@ -157,7 +149,7 @@
                   </div>
                   </g:form>
               </g:ifCurrentDog>
---}%
+
             </div>
             <div class="col-md-2 nav profile-avatares">
               <g:ifCurrentDono>
