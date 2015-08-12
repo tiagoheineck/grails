@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <meta name="layout" content="initial"/>
+        <meta name="layout" content="main"/>
         <title>Welcome to Grails</title>
 </head>
     <body>
@@ -94,7 +94,7 @@
             
             <div class="thumbnail clearfix">
             
-            <form name="fotos" action="/fotos" method="post" multipart="true" class="dropzone form" id="media-dropzone">
+            <form name="fotos" action="/fotos/create" method="post" enctype="multipart/form-data" class="dropzone form" id="media-dropzone">
 
               <div class="fallback">
                 <input type="file" name="media" multiple="true" />
@@ -125,10 +125,8 @@
         </div>
         <div class="modal-footer">
             <form id="form_excluir_foto" class="button_to" method="post" action="">
-              <input type="hidden" name="_method" value="delete">
               <button type="button" class="btn btn-default" data-dismiss="modal">Não! Não quero remover.</button>
               <input class="btn btn-primary" type="submit" value="Sim! Quero remover!">
-              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               </form>
           
         </div>
@@ -136,6 +134,31 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<script type="text/x-jquery-tmpl" id="foto-tmpl">
+
+    <div class='col-md-4 same-height fotoBox'>
+        <div class='thumbnail clearfix'>
+            <img src='{{= url}}'/>
+            <div>
+                <button data-toggle='modal' data-target='#deleteFotoModal' data-id='{{= id}}' role='button' class='btn btn-danger pull-right' style='opacity: 0.75;position:absolute; left: 30px; top:15px;' role='button'>Excluir Foto</button>
+            </div>
+            <div class='caption'>
+            <a href='#' id='descricao_{{= id}}' data-type='textarea' data-resource='foto' data-name='descricao' data-url='/fotos/update' data-pk='{{= id}}'>{{= descricao}}</a>
+            {{html "<sc"+"ript>"}}
+                $(function(){ 
+                    $('#descricao_{{= id}}').editable({ 
+                        title: 'Alterar descrição da foto', 
+                        emptytext: 'Foto sem descrição',
+                        rows: 4,
+                    }); 
+                }); 
+            {{html "</sc"+"ript>"}}
+            </a>
+            </div>
+        </div>
+    </div>
+
+</script>
 
 <script>
     $('#deleteFotoModal').on('show.bs.modal', function (event) {
@@ -143,7 +166,7 @@
         var id = button.data('id')
         
         var modal = $(this)
-        modal.find('#form_excluir_foto').attr("action", "/fotos/"+String(id))
+        modal.find('#form_excluir_foto').attr("action", "/fotos/destroy/"+String(id))
         
         modal.find('#form_excluir_foto').submit(function(){
             $.post(
@@ -160,7 +183,7 @@
     });
     
     function adicionarFotoNoAlbum(foto) {
-            $.tmpl("templates/foto", foto).appendTo("#album");
+            $.tmpl($("#foto-tmpl"), foto).appendTo("#album");
     }
     
   $(function() {
@@ -173,7 +196,7 @@
                 {
                     url: '/${it.url}',  
                     descricao: '${it.descricao}', 
-                    id: '${it.title}'
+                    id: '${it.id}'
                 }
             );
         </g:each>

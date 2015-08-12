@@ -5,6 +5,7 @@ class FotosController {
     def fileUploadService
 
 
+    @Transaction
     def create() {    	
     	def file = request.getFile("file")
     	String fileUpload = fileUploadService.upload(file)
@@ -18,7 +19,7 @@ class FotosController {
                 dog.save(flush: true)
             }
             else if (classe == 'dono'){
-                def dono = Donp.get(params.id)
+                def dono = Dono.get(params.id)
                 dono.addToFotos(foto)
                 dono.save(flush: true)
             }
