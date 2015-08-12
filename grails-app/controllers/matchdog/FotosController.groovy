@@ -5,7 +5,6 @@ class FotosController {
     def fileUploadService
 
 
-    @Transaction
     def create() {    	
     	def file = request.getFile("file")
     	String fileUpload = fileUploadService.upload(file)
@@ -49,6 +48,14 @@ class FotosController {
     	render(contentType: "application/json") {
            [head: "No Content"]
         }
+    }
+
+
+    def album() { 
+        if (params.classe == 'dog')
+            [album: Dog.get(params.id)]
+        else if (params.classe == 'dono')
+            [album  : Dono.get(params.id)]
     }
     
 }

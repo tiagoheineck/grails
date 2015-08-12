@@ -41,8 +41,7 @@
                             </div>
                             <div id="alvo-dono" class="col-md-5 alvo-nome">
                                 <span class="">${ d.dono.nome }</span>
-                                %{-- album/dono/${ d.dono.id } --}%
-                                <a href="/" class="fancybox fancybox.ajax">
+                                <a href="/album/dono/${ d.dono.id }" class="fancybox fancybox.ajax">
                                     <div id="foto-alvo-dono" class="foto-alvo inclina2">
                                         <span class="glyphicon glyphicon-camera"></span>
                                         <g:if test="${d.dono.foto}">
