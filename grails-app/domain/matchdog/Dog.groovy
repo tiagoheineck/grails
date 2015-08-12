@@ -32,10 +32,12 @@ class Dog {
     }
 
     def get_count_matches(){
-    	0
+    	def matches = Match.find("from Match where ((dog1_id = :dog  OR dog2_id = :dog) and (datahora_dog1desistiu IS NULL AND datahora_dog2desistiu IS NULL))", [dog: this.id])
+    	matches ? matches.count() : 0
     }
     def get_count_latidas(){
-    	0
+    	def latidas = Latida.find("from Latida where (para_dog_id = :dog AND lida_em IS NULL)", [dog: this.id])
+    	latidas ? latidas.count() : 0
     }
 
 }

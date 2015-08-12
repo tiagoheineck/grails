@@ -5,15 +5,15 @@ class LatidasController {
     def domatch() {
     	def match = Match.get(params.id)
     	def latidas = Latida.withCriteria {
-    		eq match_id, params.match_id    		
+    		eq 'match', match
     	}
-    	def foto_dono1 = match.dog1.dono.foto
-    	def foto_dono2 = match.dog2.dono.foto
+    	def foto_dono1 = match.dog1.dono.foto != null ? match.dog1.dono.foto.url : null
+    	def foto_dono2 = match.dog2.dono.foto != null ? match.dog2.dono.foto.url : null
     	Latida.executeUpdate(
-    		"update latida l set l.lida_em = :data" +
-    		"where l.lida_em is null AND l.para_dog_id = :para AND l.match_id = :match",
+    		"update Latida set lida_em = :data " +
+    		"where lida_em is null AND para_dog_id = :para AND match_id = :match",
     		[para: session['dog_id'],match: match.id, data: Calendar.instance.time]
-    	)
+    	)  
     	render(contentType: "application/json") {
  		   [match: match,
  		   latidas: latidas,
@@ -24,7 +24,8 @@ class LatidasController {
     }
 
     def enviar() {
-    	def match = Match.get(params.id)
+    	def match = Match.get(params.match_id)
+
     	def latida = new Latida()
     	latida.match = match
     	latida.deDog = Dog.get(session['dog_id'])    	
@@ -32,9 +33,9 @@ class LatidasController {
     	latida.enviadaEm = Calendar.instance.time
     	latida.mensagem = params.mensagem
     	latida.save(flush: true)
-    	render(contentType: "application/json") {
- 		   result: 1 		   
-		}
+        render(contentType: "application/json") {
+          [result: 1 ]
+        }
     }
 
 }

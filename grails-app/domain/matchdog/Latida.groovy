@@ -6,10 +6,11 @@ class Latida {
 	Date enviadaEm
 	Date lidaEm
     static constraints = {
-    	deDog blank: false
-    	paraDog blank: false
-    	mensagem blank: false, maxSize: 1000
-    	enviadaEm blank: false
+    	deDog nullable: false
+    	paraDog nullable: false
+    	mensagem nullable: false, blank: false, maxSize: 1000
+    	enviadaEm nullable: false, blank: false
+        lidaEm nullable: true
     }
 
     static mapping = {

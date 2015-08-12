@@ -18,9 +18,9 @@
 		         
 		        <div id="match-${ m.id }" class="one-match">
 		            
-		            %{-- GRAILS NÃO TEM CREATED_AT?
-		             <span class="title-date glyphicon glyphicon-fire"></span><span class="title-date"> Match em <%= m.created_at.strftime("%D às %R") %></span> 
-		             --}%
+		            
+		             <span class="title-date glyphicon glyphicon-fire"></span><span class="title-date">
+		             Match em <g:formatDate format="dd-MM-yyy 'às' HH'h'mm'm'" date="${ m.datahora}"/></span> 
 
 		            <div class="row-fluid">
 		                <div class="col-sm-3 foto-me-and-dog">  
@@ -155,7 +155,7 @@
 		            
 		        </div><!--fim box latidas-->
 		        <div id="form-latida" class="col-md-12">
-		            <form id="sendMessage" action="/latidas/enviar" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="✓">
+		            <form id="sendMessage" action="/latidas/enviar" method="post">
 		                <div class="col-sm-9">
 		                    <input type="hidden" id="hiddenMatchId" name="match_id" value="">
 		                    <textarea name="mensagem" required="required" id="mensagemText" placeholder="au au!" class="form-control" rows="2" cols="50"></textarea>
@@ -174,12 +174,24 @@
 		    </div>
 		</div>
 		<script>
+
 		$(document).ready(function() {
 		      var reload;
-		      $("#sendMessage").bind("ajax:complete", function(event,xhr,status){
-		          $('#mensagemText').val('');
-		          getAjax($('#hiddenMatchId').val());
-		        });
+
+		       $("#sendMessage").submit(function(event) {
+			      event.preventDefault();
+			      var $form = $( this ),
+			      url = $form.attr( 'action' );
+
+			      /* Send the data using post */
+			      var posting = $.post( url, { match_id: $('#hiddenMatchId').val(), mensagem: $('#mensagemText').val() } );
+
+			      /* Alerts the results */
+			      posting.done(function( data ) {
+			        $('#mensagemText').val('');
+		          	getAjax($('#hiddenMatchId').val());
+			      });
+			    });
 		   
 		       $('.foto-alvo-mini').mouseover(function() {
 		        $( this ).find( ".glyphicon-camera" ).show();
@@ -236,13 +248,17 @@
 		            url: "/latidas/domatch/" + match,
 		            dataType : "json",
 		            success : function(data){
-		                var usuario1 = data.match.dog1_id;
-		                var usuario2 = data.match.dog2_id;
+		                var usuario1 = data.match.dog1.id;
+		                var usuario2 = data.match.dog2.id;
 		                $('#latidas').empty();
 		                data.latidas.forEach(function(latida){
-		                    var classs = (dogLogado == latida.de_dog_id) ? 'right' : 'left';
-		                    var fotoDoEnviado = (usuario1 == latida.de_dog_id) ? data.foto_dono1 : data.foto_dono2;
-		                  $('#latidas').append('<div id="one-latida" class="latida-'+ classs +' col-md-10">'+'<div id="avatar-latida-'+classs+'">'+'<img class="mini-me" src="/images/'+fotoDoEnviado.url+'"></div>'+'<div id="conteudo-latida">'+latida.mensagem+'</div>'+'<span class="data-envio">enviada em ' +latida.enviada_em+ '</span>'+'<div class="seta-'+classs+'"></div>'+'</div');
+		                    var classs = (dogLogado == latida.deDog.id) ? 'right' : 'left';
+		                    var fotoDoEnviado = '/'+(usuario1 == latida.deDog.id) ? data.foto_dono1 : data.foto_dono2;
+		                    if(!fotoDoEnviado) fotoDoEnviado = '/assets/dono_default_image.png';
+		                    var dataEnviadaEm = new Date(latida.enviadaEm);
+		                    var dataEnviadaEmFormatada = dataEnviadaEm.getDate() + '/' + (dataEnviadaEm.getMonth()+1 ) + '/' + dataEnviadaEm.getFullYear() +' às ' +  dataEnviadaEm.getHours() + 'h' + dataEnviadaEm.getMinutes() + 'm' +  dataEnviadaEm.getSeconds()+'s';
+
+		                  $('#latidas').append('<div id="one-latida" class="latida-'+ classs +' col-md-10">'+'<div id="avatar-latida-'+classs+'">'+'<img class="mini-me" src="'+fotoDoEnviado+'"></div>'+'<div id="conteudo-latida">'+latida.mensagem+'</div>'+'<span class="data-envio">enviada em ' + dataEnviadaEmFormatada+ '</span>'+'<div class="seta-'+classs+'"></div>'+'</div');
 		                      
 		                });
 		                $("#box-latidas").scrollTop($("#box-latidas").prop('scrollHeight'));

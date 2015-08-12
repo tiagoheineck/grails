@@ -1,6 +1,6 @@
 <div id="abre_fotos" style="width:850px;overflow:hidden;">
     <g:if test="${album.fotos}">
-        <h2>Fotos do ${ album.nome } </h2>
+        <h2>Fotos de ${ album.nome } </h2>
         <div id="album" class="row">
             <g:each in="${album.fotos}" var="foto">
             <div class="col-md-4">

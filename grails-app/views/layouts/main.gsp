@@ -71,7 +71,7 @@
                   &nbsp;
                   <g:ifCurrentDog>
                     <a href="/matches/" title="Matches"> 
-                        <span class="glyphicon glyphicon-fire"></span> 
+                        <span class="glyphicon glyphicon-comment"></span> 
                         <g:getCurrentDogCountLatidas /> Latidas
                     </a>
                   </g:ifCurrentDog>

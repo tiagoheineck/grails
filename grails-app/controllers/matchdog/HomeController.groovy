@@ -27,7 +27,7 @@ class HomeController {
             
  			if (curtidaCorrespondente) {
  				deumatch = true
- 				def m = new Match([dog1: curtidaCorrespondente.dogAlvo,dog2: curtida.dog]) 				
+ 				def m = new Match([dog1: curtidaCorrespondente.dogAlvo,dog2: curtida.dog, datahora: Calendar.instance.time]) 				
  				m.save(flush: true)
  				flash.message = "MATCH!!!"
 				flash.args = ["error"]
