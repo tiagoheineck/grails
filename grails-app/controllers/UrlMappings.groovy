@@ -13,7 +13,8 @@ class UrlMappings {
         "/farejar"(controller:'home',action: 'farejar')                
         "/curtir"(controller:'home',action: 'curtir') 
         "/cadastro"(controller:'cadastro',action: 'add')        
-        "/dogs/new"(controller:'dogs',action: 'add')        
+        "/dogs/new"(controller:'dogs',action: 'add')
+        "/matches"(controller: 'matches', action:'index')        
         "500"(view:'/error')
         "404"(view:'/notFound')
     }
