@@ -33,4 +33,5 @@ class Dog {
     def get_count_latidas(){
     	0
     }
+
 }
